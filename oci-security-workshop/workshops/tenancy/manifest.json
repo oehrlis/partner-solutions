@@ -23,24 +23,64 @@
             "filename": "../../provision/provision.md"
         },
         {
-            "title": "Lab 2: Setup the Environment",
-            "filename": "../../setup/setup.md"
+            "title": "Lab 2: Basic OCI Security",
+            "description": "Create and manage encryption keys within a customer-managed key vault.",
+            "filename": "../../basic-oci-sec/basic-oci-sec.md"
         },
         {
-            "title": "Lab 3: Load Data into an Instance",
-            "filename": "../../data-load/data-load.md"
+            "title": "Lab 3: Cloud Guard Manual Remediation",
+            "description": "Configure manual remediation for detected security risks.",
+            "filename": "../../cloud-guard-manual/cloud-guard-manual.md"
         },
         {
-            "title": "Lab 4: Query Data",
-            "filename": "../../query/query.md"
+            "title": "Lab 4: Cloud Guard Auto Remediation",
+            "description": "Automate responses to detected security vulnerabilities.",
+            "filename": "../../cloud-guard-auto/cloud-guard-auto.md"
         },
         {
-            "title": "Lab 5: Tables in LiveLabs",
-            "filename": "../../tables/tables.md"
+            "title": "Lab 5: Cloud Guard Notification Setup",
+            "description": "Set up notifications to monitor and alert on security-related events.",
+            "filename": "../../cloud-guard-notification/cloud-guard-notification.md"
         },
         {
-            "title": "Lab 6: Variables in LiveLabs",
-            "filename": "../../variables/variables.md"
+            "title": "Lab 6: Data Safe Assess Database Configurations",
+            "description": "Initial setup of Oracle Data Safe, including registration of an Autonomous Database. Use Oracle Data Safe to assess database configurations for compliance.",
+            "filename": "../../data-safe-config/data-safe-config.md"
+        },
+        {
+            "title": "Lab 7: Data Safe Assess Database Users",
+            "description": "Review and analyze database user accounts with Oracle Data Safe.",
+            "filename": "../../data-safe-users/data-safe-users.md"
+        },
+        {
+            "title": "Lab 8: Data Safe Audit Database Activity",
+            "description": "Monitor and audit database activity for enhanced security visibility.",
+            "filename": "../../data-safe-activity/data-safe-activity.md"
+        },
+        {
+            "title": "Lab 9: Data Safe Generate Alerts",
+            "description": "Configure and generate alerts based on Oracle Data Safe findings.",
+            "filename": "../../data-safe-users/data-safe-users.md"
+        },
+        {
+            "title": "Lab 10: Data Safe Discover Sensitive Data",
+            "description": "Identify and classify sensitive data within the database using Oracle Data Safe.",
+            "filename": "../../data-safe-sensitiv-data/data-safe-sensitiv-data.md"
+        },
+        {
+            "title": "Lab 11: Data Safe SQL Firewall",
+            "description": "Implement SQL Firewall to manage and restrict SQL execution within the database.",
+            "filename": "../../data-safe-sqlfw/data-safe-sqlfw.md"
+        },
+        {
+            "title": "Lab 12: Security Zones",
+            "description": "Configure Security Zones to enforce compliance and security policies.",
+            "filename": "../../security-zones/security-zones.md"
+        },
+        {
+            "title": "Lab 13: Web Application Firewall (WAF)",
+            "description": "Set up and test the Web Application Firewall to protect applications from threats.",
+            "filename": "../../security-zones-waf/security-zones-waf.md"
         },
         {
             "title": "Need Help?",
