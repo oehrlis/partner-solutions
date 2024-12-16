@@ -83,6 +83,11 @@
             "filename": "../../security-zones-waf/security-zones-waf.md"
         },
         {
+            "title": "Lab 14: Deprovision the Lab Environment",
+            "description": "Deprovision the Labs Environment",
+            "filename": "../../deprovision/deprovision.md"
+        },
+        {
             "title": "Need Help?",
             "description": "Solutions to Common Problems and Directions for Receiving Live Help",
             "filename":"https://oracle-livelabs.github.io/common/labs/need-help/need-help-freetier.md"
