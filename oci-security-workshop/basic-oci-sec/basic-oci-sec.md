@@ -1,99 +1,142 @@
-# Title of the Lab
+# Key Management
 
 ## Introduction
 
-*Describe the lab in one or two sentences, for example:* This lab walks you through the steps to ...
+A _Vault_ in OCI is a secure container used to store and manage _Encryption Keys_ and _Secrets_, offering options like Standard or Virtual Private Vaults for different security and isolation needs. 
+A _Master Encryption Key_ is a key stored in the _Vault_, used to encrypt and decrypt data encryption keys or directly protect sensitive data. 
 
-Estimated Time: -- minutes
+In this lab you create the required OCI resources to use a customer-managed key for data-at-rest encryption in Object Storage and 
+Block Volume.
 
-### About <Product/Technology> (Optional)
-Enter background information here about the technology/feature or product used in this lab - no need to repeat what you covered in the introduction. Keep this section fairly concise. If you find yourself needing more than two sections/paragraphs, please utilize the "Learn More" section.
+Estimated Time: 30 minutes
+
+### About Vault
+
+OCI Vault is a secure service designed to centrally manage encryption keys and secrets, ensuring robust data protection and compliance. It supports customer-managed keys (CMKs), Oracle-managed keys, and Bring Your Own Key (BYOK) for full control over key lifecycle management. Encryption keys stored in the vault enable seamless integration with OCI services, providing encryption for data at rest and in transit with fine-grained access control.
+
 
 ### Objectives
 
-*List objectives for this lab using the format below*
-
 In this lab, you will:
-* Objective 1
-* Objective 2
-* Objective 3
+
+* Create a Vault
+* Create a Master Encryption Key
+* Create a private Object Storage bucket with a custom-managed key
+* Change the encryption key of a Block Volume to a customer-managed key
 
 ### Prerequisites (Optional)
-
-*List the prerequisites for this lab using the format below. Fill in whatever knowledge, accounts, etc. is needed to complete the lab. Do NOT list each previous lab as a prerequisite.*
 
 This lab assumes you have:
 * An Oracle Cloud account
 * All previous labs successfully completed
 
-*Below, is the "fold"--where items are collapsed by default.*
+## Task 1: Create Vault
 
-## Task 1: Concise Task Description
+1. Click the Navigation Menu in the upper left, navigate to Identity & Security, and select Vault. Select the compartment you are assigned to (check which compartment you are assigned where you have provisioned the Livelabs resources).
 
-(optional) Task 1 opening paragraph.
+	![OCI Console Screen Vault Dashboard Emtpy](images/basic-create-vault-dashboard-empty.png " ")
 
-1. Step 1
+2. Click **Create Vault**. We create a new Vault for this lab.
 
-	![Image alt text](images/sample1.png)
+	![Empty Vault Detail Page](images/basic-create-vault-detail-empty.png " ")
 
-  To create a link to local file you want the reader to download, use the following formats. _The filename must be in lowercase letters and CANNOT include any spaces._
+3. Insert Vault name, as example _vault-livelab_. Do *NOT* enable private vault. Click on **Create Vault**, the vault is provisioned.
 
-	Download the [starter file](files/starter-file.sql) SQL code.
+	![Filled Vault Detail Page with Vault Name](images/basic-create-vault-detail-filled.png " ")
 
-	When the file type is recognized by the browser, it will attempt to render it. So you can use the following format to force the download dialog box.
+4. Verify the new created _Vault_. The state changes after some minutes from _Creating_ to _Active_.
 
-	Download the [sample JSON code](files/sample.json?download=1).
+	![OCI Console Screen Vault Dashboard Vault listed](images/basic-create-vault-dashboard-filled.png " ")
 
-  > Note: do not include zip files, CSV, PDF, PSD, JAR, WAR, EAR, bin, or exe files - you must have those objects stored somewhere else. We highly recommend using Oracle Cloud Object Store and creating a PAR URL instead. See [Using Pre-Authenticated Requests](https://docs.cloud.oracle.com/en-us/iaas/Content/Object/Tasks/usingpreauthenticatedrequests.htm)
+## Task 2: Create Master Encryption Key
 
-2. Step 2
+1. In _Vault_ start page, select the previous created _Vault_, click on the **name** of the Vault to see the details.
 
-  ![Image alt text](images/sample1.png)
+	![OCI Console Screen Vault Dashboard Vault listed](images/basic-create-vault-dashboard-filled.png " ")
 
-4. Example with inline navigation icon ![Image alt text](images/sample2.png) click **Navigation**.
+2. Scroll at the bottom of the _Vault_ screen. In section _Master Encryption Keys_, create a new Master Encryption key. Click on **Create Key**.
 
-5. Example with bold **text**.
+	![OCI Console Screen Master Encryption Key Dashboard empty](images/basic-create-mek-dashboard-empty.png " ")
 
-   If you add another paragraph, add 3 spaces before the line.
+3. In **Create Key** screen, we add the information to create a new _Master Encryption Key_. Use this values:
 
-## Task 2: Concise Task Description
+    - **Protection Mode**: Software - __*Attention: HSM is fee-based, use Software instead!*__
+    - **Name**: mek-livelab
+    - **Key Shape: Algorithm**: AES
+    - **Key Shape: Length**: 256 bits
 
-1. Step 1 - tables sample
+	![Master Encryption Key Detail Page with Protection mode and Name set](images/basic-create-mek-detail-filled.png " ")
 
-  Use tables sparingly:
+  Click on **Create Key** to create the _Master Encryption Key_.   
 
-  | Column 1 | Column 2 | Column 3 |
-  | --- | --- | --- |
-  | 1 | Some text or a link | More text  |
-  | 2 |Some text or a link | More text |
-  | 3 | Some text or a link | More text |
+4. Verify the new created _Master Encryption Key_. The state changes after some minutes from _Creating_ to _Active_. The _Master Encryption Key_ is ready to use in other resources.
 
-2. You can also include bulleted lists - make sure to indent 4 spaces:
+	![OCI Console Screen Master Encryption Key Dashboard listed](images/basic-create-mek-dashboard-filled.png " ")
 
-    - List item 1
-    - List item 2
+## Task 3: Create private Object Storage bucket with the Master Encryption Key
 
-3. Code examples
+1. Click the Navigation Menu in the upper left, navigate to Storage, and select Buckets. Select the compartment you are assigned to (check which compartment you are assigned where you have provisioned the Livelabs resources).
 
-    ```
-    Adding code examples
-  	Indentation is important for the code example to appear inside the step
-    Multiple lines of code
-  	<copy>Enclose the text you want to copy in <copy></copy>.</copy>
-    ```
+	![OCI Console Object Storage Dashboard empty](images/basic-object_storage-dashboard-empty.png " ")
 
-4. Code examples that include variables
+2. Click **Create Bucket**. We create a new private Object Storage bucket for this lab.
 
-	```
-  <copy>ssh -i <ssh-key-file></copy>
-  ```
+	![Empty Object Storage Detail Page](images/basic-object_storage-dashboard-create.png " ")
+
+3. In **Create Bucket** screen, we add the information to create a new _Object Storage bucket_. Use this values:
+
+    - **Bucket Name**: private_bucket_livelab
+    - **Encryption**: Select Encrypt using customer-managed keys
+    - **Vault in [your compartment]**: Select created _Vault_
+    - **Master Encryprion Key in [your compartment]**: Select created Master Encryption Key
+
+	![Object Storage Detail Page with Name, Vault and Master Encryption Key set upper screen](images/basic-create-object-storage-detail-filled-upper.png " ")
+
+	![Object Storage Detail Page with Name, Vault and Master Encryption Key lower screen](images/basic-create-object-storage-detail-filled-lower.png " ")
+  Click on **Create** to create the _Object Storage bucket_ with the selected _Master Encryption Key_.   
+
+4. Verify the new created _Object Storage bucket_.
+
+	![OCI Console Screen Master Encryption Key Dashboard listed](images/basic-create-object-storage-dashboard-filled.png " ")
+
+5. Click on the Objet storage name to verify new _Master Encryption Key_ is used.
+
+	![OCI Console Screen Object Storage bucket detail page](images/basic-create-object-storage-detail_view.png " ")
+
+## Task 4: Change Block Volume Master Encryption Key
+
+1. Click the Navigation Menu in the upper left, navigate to Compute, and select Instance. Select the compartment you are assigned to (check which compartment you are assigned where you have provisioned the Livelabs resources). Two compute instances are listed.
+
+	![OCI Console Screen Compute Instance Dashboard](images/basic-compute-instance-dashboard-filled.png " ")
+
+2. Select the _webserver01_ instance by click on the instance name.
+
+	![OCI Console Screen Compute Instance Selection](images/basic-compute-instance-dashboard-select.png " ")
+
+3. In the left _Resources_ column, click on **Boot volume** to see the current attached Boot Volume.
+
+	![OCI Console Screen Compute Instance Resource Boot Volume Selection](images/basic-compute-instance-dashboard-boot-volume-select.png " ")
+
+4. Click on **Boot volume name** to get the specifications of the Boot Volume.
+
+	![OCI Console Screen Compute Instance Resource Boot Volume Details](images/basic-compute-instance-dashboard-boot-volume-details-get.png " ")
+
+5. At the Boot Volume specification page in _Encryption key_ section, click on **Assign**.
+
+	![OCI Console Screen Compute Instance Resource Boot Volume KEy Assignment](images/basic-compute-instance-dashboard-boot-volume-details-assign.png " ")
+
+6. Select your _Vault_ and _Master Encryption Key_, click on **Assign**. You  don't see the vault? Verify the compartment first. The Boot Volume changes state temporarily _PROVISIONING_. 
+
+	![OCI Console Screen Boot Volume Encryption Key Assignment Screen](images/basic-compute-instance-dashboard-boot-volume-details-assign-confirm.png " ")
+
+7. Verify new **Encryption key** is set.
+
+	![OCI Console Screen Compute Instance Boot Volume with new Encryption Key](images/basic-compute-instance-dashboard-boot-volume-verification.png " ")
+
 
 ## Learn More
 
-*(optional - include links to docs, white papers, blogs, etc)*
-
-* [URL text 1](http://docs.oracle.com)
-* [URL text 2](http://docs.oracle.com)
+* [Oracle Cloud Infrastructure Documentation - Vault Start Page](https://docs.oracle.com/en-us/iaas/Content/KeyManagement/home.htm).
 
 ## Acknowledgements
 * **Author** - <Name, Title, Group>
